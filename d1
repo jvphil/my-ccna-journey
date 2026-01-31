@@ -1,0 +1,12 @@
+conf t
+ ip dhcp excluded-address 10.2.1.1 10.2.1.99
+ ip dhcp excluded-address 10.2.1.200 10.2.1.254
+ !
+ ip dhcp pool MGMTPOOL
+  network 10.2.1.0 255.255.255.0
+  default-router 10.2.1.1
+  dns-server 10.2.1.1
+  domain-name mgmt.com
+  end
+
+  

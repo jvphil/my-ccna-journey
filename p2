@@ -1,0 +1,5 @@
+conf t
+int e1/0
+no shutdown
+ip add dhcp
+end

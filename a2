@@ -1,0 +1,6 @@
+conf t
+int e1/0
+switchport mode access
+sw access vlan 10
+no shutdown
+end
