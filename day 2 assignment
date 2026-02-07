@@ -1,2 +1,113 @@
-Accenture.com
-  350 users
+I designed a network for the following orgs:
+
+1. Accenture.com, 350 users, vlan 69
+2. Comelec.com.ph, 210 users, vlan 669
+3. Telus SOC 25 users, vlan 443
+
+I used the network segment 10.3.0.0 /12
+
+Here's the subnet for 
+
+(1)
+
+Network ID: 10.3.2.0 255.255.240.0
+1st IP: 10.3.2.1
+Last IP: 10.3.3.254
+Broadcast ID: 10.3.3.255
+Not company network: 10.3.4.0 255.255.240.0 
+
+(2)
+
+Network ID: 10.3.4.0 255.255.255.0
+1st IP: 10.3.4.1
+Last IP: 10.3.4.254
+Broadcast ID: 10.3.4.255
+Not company network: 10.3.5.0 255.255.255.0
+
+(3)
+
+Network ID: 10.3.5.0 255.255.255.224
+1st IP: 10.3.5.1
+Last IP: 10.3.5.30
+Broadcast ID: 10.3.5.31
+Not company network: 10.3.5.32 255.255.255.224 
+
+########## D1 Config ##########
+ip dhcp excluded-address 10.3.4.1 10.3.4.10
+ip dhcp excluded-address 10.3.5.1 10.3.5.10
+ip dhcp excluded-address 10.3.2.1 10.3.2.10
+!         
+ip dhcp pool ACCENTURE.COM
+ network 10.3.2.0 255.255.254.0
+ default-router 10.3.2.1 
+ domain-name accenture.com
+ dns-server 10.82.1.10 
+ option 150 ip 10.82.100.8 
+!         
+ip dhcp pool COMELEC.COM.PH
+ network 10.3.4.0 255.255.255.0
+ default-router 10.3.4.1 
+ dns-server 10.82.1.10 
+ domain-name comelec.com.ph
+ option 150 ip 10.82.100.8 
+!         
+ip dhcp pool TELUS_SOC
+ network 10.3.5.0 255.255.255.224
+ default-router 10.3.5.1 
+ dns-server 10.82.1.10 
+ domain-name soc.telus.ph
+ option 150 ip 10.82.100.8 
+
+!         
+interface Vlan69
+ ip address 10.3.2.1 255.255.254.0
+ no shutdown
+!   
+interface Vlan443
+ ip address 10.3.5.1 255.255.255.224
+ no shutdown
+!
+interface Vlan669
+ ip address 10.3.4.1 255.255.255.0
+ no shutdown
+! 
+
+
+########## D2 Config ##########
+
+!         
+interface Ethernet1/0
+ switchport access vlan 443
+ switchport mode access
+!     
+
+########## S2 Config ##########
+         
+interface Ethernet1/0
+ ip address dhcp
+
+########## A1 Config ##########
+
+interface Ethernet0/0
+ switchport access vlan 69
+ switchport mode access
+
+########## P1 Config ##########
+
+interface Ethernet0/0
+ ip address dhcp
+ no shutdown
+
+########## A2 Config ##########
+
+interface Ethernet1/0
+ switchport access vlan 669
+ switchport mode access
+
+########## P2 Config ##########
+
+interface Ethernet1/0
+ ip address dhcp
+ no shutdown
+
+
