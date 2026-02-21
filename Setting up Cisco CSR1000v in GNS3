@@ -1,0 +1,13 @@
+How to install run Cisco CSR 1000v on GNS3 (running in WSL Ubuntu)
+
+I. Install WSL
+  a. Open elevated powershell or teminal
+  b. Run the command Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -All -NoRestart
+  c. Run the command 
+      wsl --install Ubuntu
+     This will install the latest version of ubuntu available for WSL. Follow the prompts and provide information if asked.
+
+  Once setup is complete, a new ubuntu session will run.
+
+II. Install GNS3 Server and Client
+  1.  
